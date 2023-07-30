@@ -16,6 +16,34 @@ app.config.update(
     SECRET_KEY='192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
 )
 
+def check_file_number(path):
+    filename = os.path.splitext(os.path.basename(path))[0]
+    if filename[-1] == ')':
+        return(int(filename[-2]))
+    else:
+        return(0)
+    
+
+def create_new_filename(filename, old_number):
+    base_name, file_extension = os.path.splitext(filename)
+
+    new_base_name = f'{base_name}({old_number+1})'
+    new_filename = f'{new_base_name}/{file_extension}'
+
+    return new_filename
+
+
+def write_or_replace(file, dir_name, filename):
+    path = os.path.join(dir_name, filename)
+
+    if os.path.exists(path):
+        number = check_file_number(path)
+        new_filename = create_new_filename(filename, number)
+        new_path = os.path.join(dir_name, new_filename)
+        file.save(os.path.join(new_path))
+    else:
+        file.save(os.path.join(path))
+
 
 @app.route('/', methods=['POST'])
 def upload_file():
