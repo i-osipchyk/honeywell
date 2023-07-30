@@ -1,3 +1,1 @@
-upload1.txt
-upload2.txt
-upload3.txt
+upload.txt
