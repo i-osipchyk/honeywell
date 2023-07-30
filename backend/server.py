@@ -17,5 +17,16 @@ app.config.update(
 )
 
 
+@app.route('/', methods=['POST'])
+def upload_file():
+    file = request.files['file']
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        return 'File Uploaded'
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
