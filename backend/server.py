@@ -33,14 +33,14 @@ def create_new_filename(filename, old_number):
     return new_filename
 
 
-def write_or_replace(file, dir_name, filename):
+def write_or_rename(file, dir_name, filename):
     path = os.path.join(dir_name, filename)
 
     if os.path.exists(path):
         number = check_file_number(path)
         new_filename = create_new_filename(filename, number)
         new_path = os.path.join(dir_name, new_filename)
-        file.save(os.path.join(new_path))
+        os.rename(path, new_path)
     else:
         file.save(os.path.join(path))
 
