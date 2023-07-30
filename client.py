@@ -1,4 +1,5 @@
 import requests
+from tqdm import tqdm
 
 # def send_file_to_server():
 #     url = 'http://localhost:5000/'  # Replace with the actual URL of your Flask server
@@ -28,13 +29,11 @@ def send_files_to_server():
 
     files_to_upload = read_input_file('input.txt')
 
-    for filename in files_to_upload:
+    for filename in tqdm(files_to_upload, desc='Uploading files', unit='file'):
         with open(file_storage+filename, 'rb') as file:
             files = {'file': (filename, file)}
 
             response = requests.post(url, files=files)
-
-            print(response.text)
 
 if __name__ == '__main__':
     send_files_to_server()
